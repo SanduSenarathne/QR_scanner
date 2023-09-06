@@ -31,6 +31,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final double frameSize = MediaQuery.of(context).size.width *
+        0.7; // Adjust the frame size as needed
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -47,11 +49,44 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: [
           Expanded(
-              flex: 5,
-              child: QRView(
-                key: qrKey,
-                onQRViewCreated: _onQRViewCreated,
-              )),
+            flex: 5,
+            child: Stack(
+              children: [
+                QRView(
+                  key: qrKey,
+                  onQRViewCreated: _onQRViewCreated,
+                ),
+                Center(
+                  child: Container(
+                    width: frameSize,
+                    height: frameSize,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.blue,
+                        width: 3,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black
+                        .withOpacity(0.5), // Adjust opacity and color as needed
+                    child: Center(
+                      child: Text(
+                        'Align QR Code Here',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             flex: 1,
             child: Padding(
@@ -61,7 +96,12 @@ class _HomePageState extends State<HomePage> {
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'QR Code',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                      width: 2,
+                    ),
+                  ),
                 ),
               ),
             ),
